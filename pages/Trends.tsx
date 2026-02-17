@@ -8,6 +8,7 @@ import React from 'react';
 import { ConstituencyData, FilterState } from '../types';
 import { TrendLineChart, ComparisonBarChart } from '../components/Charts';
 import { getRawData } from '../services/dataService';
+import { Info } from 'lucide-react';
 
 interface TrendsProps {
   data: ConstituencyData[];
@@ -161,7 +162,20 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
         {/* Chart 1: Time Series */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
           <div className="mb-8">
-            <h3 className="text-xl font-bold text-slate-800">Average Turnout Trend</h3>
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-xl font-bold text-slate-800">Average Turnout Trend</h3>
+              <div className="group relative">
+                <Info size={16} className="text-slate-400 cursor-help" />
+                <div className="absolute left-0 top-6 hidden group-hover:block w-64 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                  <strong className="block mb-1">What this shows:</strong>
+                  Aggregated voter participation trend across all selected constituencies over election cycles.
+                  <div className="mt-2 pt-2 border-t border-slate-700">
+                    <strong className="block mb-1">Judge's Insight:</strong>
+                    Downward slope indicates declining democratic engagement requiring investigation.
+                  </div>
+                </div>
+              </div>
+            </div>
             <p className="text-sm text-slate-500 mt-1 font-medium">Aggregated voter participation across selected scope over time</p>
           </div>
           {yearlyAvg.length > 0 ? (

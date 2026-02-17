@@ -339,11 +339,26 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
                          <div className="flex items-center justify-end gap-3">
                            <div className="w-20 bg-slate-100 rounded-full h-2 overflow-hidden shadow-inner">
                               <div 
-                                className={`h-full rounded-full ${row.customScore > 0.30 ? 'bg-red-500' : row.customScore > 0.20 ? 'bg-amber-500' : 'bg-blue-500'}`} 
+                                className={`h-full rounded-full transition-all ${
+                                  row.customScore > 0.35 ? 'bg-red-600' : 
+                                  row.customScore > 0.28 ? 'bg-red-500' : 
+                                  row.customScore > 0.22 ? 'bg-orange-500' : 
+                                  row.customScore > 0.16 ? 'bg-amber-500' : 
+                                  row.customScore > 0.10 ? 'bg-yellow-500' : 'bg-blue-500'
+                                }`} 
                                 style={{ width: `${Math.min(row.customScore * 100, 100)}%` }}
                               ></div>
                            </div>
-                           <span className="font-bold text-slate-800 w-14 text-right">{(row.customScore * 100).toFixed(1)}%</span>
+                           <span 
+                             className={`font-bold w-14 text-right ${
+                               row.customScore > 0.28 ? 'text-red-700' : 
+                               row.customScore > 0.22 ? 'text-orange-700' : 
+                               row.customScore > 0.16 ? 'text-amber-700' : 'text-slate-800'
+                             }`}
+                             title={`Priority Score: ${(row.customScore * 100).toFixed(1)}% (${row.customScore > 0.28 ? 'Critical' : row.customScore > 0.22 ? 'High Risk' : row.customScore > 0.16 ? 'Medium Risk' : 'Low Risk'})`}
+                           >
+                             {(row.customScore * 100).toFixed(1)}%
+                           </span>
                          </div>
                       </td>
                     </tr>

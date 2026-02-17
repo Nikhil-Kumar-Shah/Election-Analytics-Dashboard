@@ -24,31 +24,65 @@ interface ChartProps {
   height?: number;
 }
 
-export const TrendLineChart: React.FC<ChartProps> = ({ data, xKey, keys = ['value'] }) => (
-  <ResponsiveContainer width="100%" height={300}>
-    <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
-      <XAxis dataKey={xKey} stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-      <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} domain={['auto', 'auto']} />
-      <Tooltip 
-        contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-        itemStyle={{ color: '#1e293b' }}
-      />
-      <Legend />
-      {keys.map((key, index) => (
-        <Line 
-          key={key} 
-          type="monotone" 
-          dataKey={key} 
-          stroke={index === 0 ? COLORS.primary : COLORS.accent} 
-          strokeWidth={2.5} 
-          dot={{ r: 3, fill: '#fff', strokeWidth: 2 }}
-          activeDot={{ r: 5 }}
+export const TrendLineChart: React.FC<ChartProps> = ({ data, xKey, keys = ['value'] }) => {
+  // Custom tooltip for trend chart
+  const TrendTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 rounded-lg shadow-lg border border-slate-200 text-xs">
+          <p className="font-semibold text-slate-700 mb-1">Year: {payload[0].payload[xKey]}</p>
+          {payload.map((entry: any, index: number) => (
+            <p key={index} className="text-slate-600">
+              <span className="font-semibold" style={{ color: entry.color }}>Avg Turnout:</span> {entry.value.toFixed(1)}%
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <LineChart data={data} margin={{ top: 5, right: 30, left: 10, bottom: 20 }}>
+        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+        <XAxis 
+          dataKey={xKey} 
+          stroke="#64748b" 
+          fontSize={12} 
+          tickLine={false} 
+          axisLine={false}
+          label={{ value: 'Year', position: 'insideBottom', offset: -10, style: { fontSize: 11, fill: '#64748b', fontWeight: 600 } }}
         />
-      ))}
-    </LineChart>
-  </ResponsiveContainer>
-);
+        <YAxis 
+          stroke="#64748b" 
+          fontSize={12} 
+          tickLine={false} 
+          axisLine={false} 
+          domain={['auto', 'auto']}
+          label={{ value: 'Turnout (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11, fill: '#64748b', fontWeight: 600 } }}
+        />
+        <Tooltip content={<TrendTooltip />} />
+        <Legend 
+          wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+          formatter={(value) => 'Average Turnout'}
+        />
+        {keys.map((key, index) => (
+          <Line 
+            key={key} 
+            type="monotone" 
+            dataKey={key} 
+            name="Average Turnout"
+            stroke={index === 0 ? COLORS.primary : COLORS.accent} 
+            strokeWidth={2.5} 
+            dot={{ r: 4, fill: '#fff', strokeWidth: 2 }}
+            activeDot={{ r: 6 }}
+          />
+        ))}
+      </LineChart>
+    </ResponsiveContainer>
+  );
+};
 
 export const ComparisonBarChart: React.FC<ChartProps> = ({ data, xKey, yKey = 'value' }) => (
   <ResponsiveContainer width="100%" height={300}>

@@ -7,7 +7,7 @@
 import React from 'react';
 import { ConstituencyData } from '../types';
 import { DriverScatterChart } from '../components/Charts';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Info } from 'lucide-react';
 
 interface DriversProps {
   data: ConstituencyData[];
@@ -97,7 +97,20 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Scatter 1: Candidates vs Turnout */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-          <h4 className="font-bold text-slate-800 mb-6 text-lg">Turnout vs. Number of Candidates</h4>
+          <div className="flex items-center gap-2 mb-6">
+            <h4 className="font-bold text-slate-800 text-lg">Turnout vs. Number of Candidates</h4>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-72 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Relationship between electoral competition (# candidates) and voter turnout.
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Expected Pattern:</strong>
+                  More candidates → higher mobilization → increased turnout (positive correlation).
+                </div>
+              </div>
+            </div>
+          </div>
           <DriverScatterChart 
             data={scatterCandidates} 
             xKey="x" 
