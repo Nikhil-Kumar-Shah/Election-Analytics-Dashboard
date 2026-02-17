@@ -59,37 +59,37 @@ export const Methodology: React.FC = () => {
               <div className="flex items-center justify-between text-xs font-mono">
                 <div className="flex flex-col items-center">
                   <div className="bg-blue-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
-                    Raw CSV
+                    Raw Data Source
                   </div>
-                  <span className="text-slate-500 mt-1 text-[10px]">10,514 records</span>
+                  <span className="text-slate-500 mt-1 text-[10px]">121,932 candidate rows</span>
                 </div>
                 <div className="text-slate-400 text-2xl">→</div>
                 <div className="flex flex-col items-center">
                   <div className="bg-emerald-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
-                    Data Cleaning
+                    Cleaning & Aggregation
                   </div>
-                  <span className="text-slate-500 mt-1 text-[10px]">Remove nulls</span>
+                  <span className="text-slate-500 mt-1 text-[10px]">10,514 AC-Year rows</span>
                 </div>
                 <div className="text-slate-400 text-2xl">→</div>
                 <div className="flex flex-col items-center">
                   <div className="bg-amber-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
-                    Aggregation
+                    Feature Eng.
                   </div>
-                  <span className="text-slate-500 mt-1 text-[10px]">Group by year</span>
+                  <span className="text-slate-500 mt-1 text-[10px]">Trend/Vol metrics</span>
                 </div>
                 <div className="text-slate-400 text-2xl">→</div>
                 <div className="flex flex-col items-center">
                   <div className="bg-purple-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
-                    Feature Eng.
+                    Scoring Model
                   </div>
-                  <span className="text-slate-500 mt-1 text-[10px]">Calc volatility</span>
+                  <span className="text-slate-500 mt-1 text-[10px]">Priority Algorithm</span>
                 </div>
                 <div className="text-slate-400 text-2xl">→</div>
                 <div className="flex flex-col items-center">
                   <div className="bg-red-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
-                    Priority Score
+                    Visualization
                   </div>
-                  <span className="text-slate-500 mt-1 text-[10px]">40/30/20/10</span>
+                  <span className="text-slate-500 mt-1 text-[10px]">Dashboard Layer</span>
                 </div>
               </div>
               <div className="mt-4 pt-4 border-t border-slate-300 text-slate-600 text-xs leading-relaxed">
@@ -165,7 +165,7 @@ export const Methodology: React.FC = () => {
           </h3>
           <ul className="pl-8 space-y-4 text-slate-600">
             <li className="pl-4 border-l-2 border-slate-200">
-              <strong className="text-slate-800 block mb-1">Turnout %</strong> 
+              <strong className="text-slate-800 block mb-1">Turnout (%)</strong> 
               Total valid votes cast divided by Total Registered Electors × 100. This represents voter participation rate.
             </li>
             <li className="pl-4 border-l-2 border-slate-200">

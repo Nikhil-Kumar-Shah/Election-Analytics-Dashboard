@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { ConstituencyData, FilterState } from '../types';
-import { Users, TrendingDown, Activity, AlertTriangle, Lightbulb, BookOpen, Info } from 'lucide-react';
+import { Users, TrendingDown, TrendingUp, Activity, AlertTriangle, Lightbulb, BookOpen, Info } from 'lucide-react';
 
 interface OverviewProps {
   data: ConstituencyData[];
@@ -18,6 +18,10 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
   const avgTurnout = data.length > 0 
     ? (data.reduce((acc, curr) => acc + curr.turnout, 0) / data.length).toFixed(1) 
     : '0';
+  
+  const avgTurnoutChange = data.length > 0 
+    ? (data.reduce((acc, curr) => acc + curr.turnout_change, 0) / data.length).toFixed(2)
+    : '0.00';
   
   const countConstituencies = new Set(data.map(d => `${d.state_name}-${d.ac_name}`)).size;
   
@@ -53,18 +57,18 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
         <KpiCard 
           title="Avg. Turnout" 
           value={`${avgTurnout}%`} 
-          subtext={`Year ${filters.year}`} 
+          subtext={`Across ${countConstituencies} Constituencies`} 
           icon={Activity} 
           color="blue"
-          tooltip="Average voter turnout across all selected constituencies for the chosen year. Higher percentages indicate stronger democratic participation."
+          tooltip="Average voter turnout across all selected constituencies for the chosen year."
         />
         <KpiCard 
-          title="Constituencies" 
-          value={countConstituencies.toString()} 
-          subtext="In selected scope" 
-          icon={Users} 
-          color="slate"
-          tooltip="Total number of unique constituencies matching your current filter selection (state, year, etc.)."
+          title="Avg Turnout Change" 
+          value={`${Number(avgTurnoutChange) > 0 ? '+' : ''}${avgTurnoutChange}%`} 
+          subtext="vs Previous Cycle" 
+          icon={Number(avgTurnoutChange) >= 0 ? TrendingUp : TrendingDown} 
+          color={Number(avgTurnoutChange) >= 0 ? "emerald" : "red"}
+          tooltip="Average percentage point change in voter turnout compared to the previous election cycle. Positive values indicate growth, negative values indicate decline."
         />
         <KpiCard 
           title="Declining Trend" 
@@ -125,7 +129,7 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
         <FindingCard 
           number="01"
           title="Participation Variance"
-          text={`Turnout ranges from ${Math.min(...data.map(d => d.turnout)).toFixed(1)}% to ${Math.max(...data.map(d => d.turnout)).toFixed(1)}% across ${countConstituencies.toLocaleString()} constituencies, with ${data.filter(d => d.turnout < 50).length} constituencies below 50% participation, indicating local governance and engagement factors are critical drivers.`}
+          text={`Turnout ranges from ${Math.min(...data.map(d => d.turnout)).toFixed(1)}% to ${Math.max(...data.map(d => d.turnout)).toFixed(1)}% across ${countConstituencies.toLocaleString()} constituencies, with ${data.filter(d => d.turnout < 50).length} ${data.filter(d => d.turnout < 50).length === 1 ? 'constituency' : 'constituencies'} below 50% participation, indicating local governance and engagement factors are critical drivers.`}
         />
         <FindingCard 
           number="02"
@@ -245,7 +249,9 @@ const KpiCard = ({ title, value, subtext, icon: Icon, color, tooltip }: any) => 
     blue: "bg-blue-50 text-blue-600",
     slate: "bg-slate-50 text-slate-600",
     amber: "bg-amber-50 text-amber-600",
-    red: "bg-red-50 text-red-600"
+    red: "bg-red-50 text-red-600",
+    emerald: "bg-emerald-50 text-emerald-600",
+    green: "bg-green-50 text-green-600"
   };
 
   return (

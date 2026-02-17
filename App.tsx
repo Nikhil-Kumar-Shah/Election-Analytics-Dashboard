@@ -72,6 +72,16 @@ const App: React.FC = () => {
     }
   }, [dataReady]);
 
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  // Filter change handler with loading simulation for UX
+  const handleFilterChange = (newFilters: FilterState) => {
+    setIsFiltering(true);
+    setFilters(newFilters);
+    // Short timeout to allow UI to show loading state (and let React render)
+    setTimeout(() => setIsFiltering(false), 300);
+  };
+
   // Data fetching based on filters
   const filteredData = useMemo(() => {
     return getFilteredData(filters.states, filters.constituencies, filters.year);
@@ -169,8 +179,9 @@ const App: React.FC = () => {
       currentView={currentView} 
       onNavigate={handleNavigate}
       filters={filters}
-      onFilterChange={setFilters}
+      onFilterChange={handleFilterChange}
       dataReady={dataReady}
+      isFiltering={isFiltering}
     >
       {renderContent()}
     </Layout>

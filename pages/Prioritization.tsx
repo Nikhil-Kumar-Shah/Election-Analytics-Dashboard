@@ -103,14 +103,36 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
     return 'stable';
   };
   
-  // Export full dataset CSV function
+  // Export current view CSV function
   const exportDataset = () => {
-    // Download the full constituency_level.csv dataset
-    const csvPath = `${import.meta.env.BASE_URL || '/'}dataset/constituency_level.csv`;
+    // Defines CSV headers
+    const headers = ['Rank', 'State', 'Constituency', 'Electors', 'Turnout (%)', 'Avg Turnout (%)', 'Change', 'Volatility', 'Priority Score'];
+    
+    // Convert filtered data to CSV rows
+    const csvContent = [
+      headers.join(','),
+      ...filteredData.map((row, index) => [
+        index + 1,
+        `"${row.state_name}"`,
+        `"${row.ac_name}"`,
+        row.total_electors,
+        row.turnout.toFixed(2),
+        row.avg_turnout.toFixed(2),
+        row.turnout_change.toFixed(2),
+        row.turnout_volatility.toFixed(2),
+        row.customScore.toFixed(4)
+      ].join(','))
+    ].join('\n');
+
+    // Create download link
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = csvPath;
-    link.download = 'constituency_level.csv';
+    link.href = url;
+    link.setAttribute('download', 'priority_analysis_view.csv');
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -286,10 +308,10 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
               <button
                 onClick={exportDataset}
                 className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-2"
-                title="Download full constituency_level.csv dataset"
+                title="Download current filtered table as CSV"
               >
                 <Download size={16} />
-                Export Dataset
+                Export CSV
               </button>
               <a 
                 href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 

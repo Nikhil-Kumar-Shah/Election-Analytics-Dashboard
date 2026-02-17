@@ -33,7 +33,9 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
     y: d.turnout, 
     z: d.total_electors / 1000,
     name: d.ac_name,
-    state: d.state_name
+    state: d.state_name,
+    electors: d.total_electors,
+    margin: d.margin
   }));
   
   const scatterMargin = data.map(d => ({ 
@@ -41,7 +43,9 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
     y: d.turnout, 
     z: d.total_electors / 1000,
     name: d.ac_name,
-    state: d.state_name
+    state: d.state_name,
+    electors: d.total_electors,
+    candidates: d.num_candidates
   }));
 
   const scatterElectors = data.map(d => ({ 
@@ -49,7 +53,9 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
     y: d.turnout, 
     z: d.num_candidates,
     name: d.ac_name,
-    state: d.state_name
+    state: d.state_name,
+    margin: d.margin,
+    candidates: d.num_candidates
   }));
 
   // Calculate correlation coefficients (Pearson r)
@@ -116,9 +122,9 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
             xKey="x" 
             yKey="y" 
             zKey="z" 
-            name="Turnout %"
+            name="Turnout (%)"
             xLabel="Number of Candidates"
-            yLabel="Turnout %"
+            yLabel="Turnout (%)"
           />
           <div className="mt-6 text-xs text-slate-500 border-t pt-4 border-slate-100 leading-relaxed">
             <strong className="text-slate-800">Observation:</strong> More candidates typically drive higher turnout due to increased mobilization, 
@@ -148,9 +154,9 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
             xKey="x" 
             yKey="y" 
             zKey="z" 
-            name="Turnout %"
+            name="Turnout (%)"
             xLabel="Victory Margin (%)"
-            yLabel="Turnout %"
+            yLabel="Turnout (%)"
           />
           <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
             <p className="text-xs font-bold text-blue-900">
@@ -158,8 +164,8 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
             </p>
           </div>
           <div className="mt-4 text-xs text-slate-500 border-t pt-4 border-slate-100 leading-relaxed">
-            <strong className="text-slate-800">Observation:</strong> Closer races (lower margins) often correlate with higher turnout as voters 
-            perceive their vote as more impactful. Landslide victories may suppress participation.
+            <strong className="text-slate-800">Observation:</strong> Analysis shows that closer margins (lower %) are moderately associated with higher turnout, 
+            confirming that voters are more likely to participate when they perceive the race as competitive and their vote as decisive.
             <br/><span className="italic text-slate-400 mt-1 block">Bubble Size: Electorate (thousands)</span>
           </div>
         </div>
@@ -185,9 +191,9 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
             xKey="x" 
             yKey="y" 
             zKey="z" 
-            name="Turnout %"
+            name="Turnout (%)"
             xLabel="Total Electors (thousands)"
-            yLabel="Turnout %"
+            yLabel="Turnout (%)"
           />
           <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
             <p className="text-xs font-bold text-blue-900">
@@ -195,8 +201,8 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
             </p>
           </div>
           <div className="mt-4 text-xs text-slate-500 border-t pt-4 border-slate-100 leading-relaxed">
-            <strong className="text-slate-800">Observation:</strong> Large electorates (urban centers) often demonstrate lower turnout, 
-            suggesting logistical challenges or urban apathy. Smaller constituencies tend to exhibit higher participation rates.
+            <strong className="text-slate-800">Observation:</strong> Large electorates show consistently weaker turnout patterns, 
+            suggesting significant infrastructure or awareness gaps in high-density urban constituencies that deter participation.
             <br/><span className="italic text-slate-400 mt-1 block">Bubble Size: Number of Candidates</span>
           </div>
         </div>

@@ -113,20 +113,41 @@ export const DriverScatterChart: React.FC<ChartProps & { zKey?: string, name?: s
     if (active && payload && payload.length) {
       const point = payload[0].payload;
       return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border border-slate-200 text-xs">
-          <p className="font-bold text-slate-900 mb-1">{point.name || 'Unknown'}</p>
-          {point.state && <p className="text-slate-500 mb-2 text-[10px]">{point.state}</p>}
-          <div className="space-y-1">
-            <p className="text-slate-700">
-              <span className="font-semibold">{xLabel || 'X'}:</span> {typeof point.x === 'number' ? point.x.toFixed(1) : point.x}
-            </p>
-            <p className="text-slate-700">
-              <span className="font-semibold">Turnout:</span> {typeof point.y === 'number' ? point.y.toFixed(1) : point.y}%
-            </p>
-            {point.z !== undefined && (
-              <p className="text-slate-700">
-                <span className="font-semibold">{zKey === 'z' ? 'Size' : zKey}:</span> {typeof point.z === 'number' ? point.z.toFixed(0) : point.z}
-              </p>
+        <div className="bg-white p-3 rounded-lg shadow-lg border border-slate-200 text-xs min-w-[200px] z-50 relative">
+          <p className="font-bold text-slate-900 mb-2 border-b border-slate-100 pb-1">{point.name || 'Unknown'}</p>
+          {point.state && <p className="text-slate-500 mb-2 text-[10px] uppercase tracking-wide font-bold">{point.state}</p>}
+          
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center text-slate-700">
+              <span className="font-semibold text-slate-500">Turnout:</span> 
+              <span className="font-bold bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded">{typeof point.y === 'number' ? point.y.toFixed(1) : point.y}%</span>
+            </div>
+            
+            <div className="flex justify-between items-center text-slate-700">
+              <span className="font-semibold text-slate-500">{xLabel || 'X'}:</span> 
+              <span className="font-mono">{typeof point.x === 'number' ? point.x.toFixed(1) : point.x}</span>
+            </div>
+
+            {/* Contextual Data */}
+            {point.electors !== undefined && (
+              <div className="flex justify-between items-center text-slate-700">
+                <span className="font-semibold text-slate-500">Electors:</span> 
+                <span className="font-mono">{point.electors.toLocaleString()}</span>
+              </div>
+            )}
+            
+            {point.candidates !== undefined && (
+              <div className="flex justify-between items-center text-slate-700">
+                <span className="font-semibold text-slate-500">Candidates:</span> 
+                <span className="font-mono">{point.candidates}</span>
+              </div>
+            )}
+            
+            {point.margin !== undefined && (
+              <div className="flex justify-between items-center text-slate-700">
+                <span className="font-semibold text-slate-500">Margin:</span> 
+                <span className="font-mono">{point.margin.toFixed(1)}%</span>
+              </div>
             )}
           </div>
         </div>
@@ -154,7 +175,7 @@ export const DriverScatterChart: React.FC<ChartProps & { zKey?: string, name?: s
           unit="%" 
           stroke="#64748b" 
           fontSize={12}
-          label={{ value: yLabel || 'Turnout %', angle: -90, position: 'insideLeft', style: { fontSize: 11, fill: '#64748b' } }}
+          label={{ value: yLabel || 'Turnout (%)', angle: -90, position: 'insideLeft', style: { fontSize: 11, fill: '#64748b' } }}
         />
         <ZAxis type="number" dataKey={zKey} range={[40, 200]} name={zKey} />
         <Tooltip content={<CustomTooltip />} cursor={{ strokeDasharray: '3 3' }} />

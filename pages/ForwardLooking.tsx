@@ -295,6 +295,9 @@ export const ForwardLooking: React.FC<ForwardLookingProps> = ({ data }) => {
           <CircleAlert className="text-indigo-600" size={24} />
           What This Means: Translating Data into Action
         </h4>
+        <p className="text-sm text-indigo-800 mb-6 font-medium italic border-b border-indigo-200 pb-4">
+          "High volatility combined with negative recent changes signals constituencies at risk of further turnout decline without targeted interventions."
+        </p>
         <div className="space-y-4">
           <div className="bg-white/80 p-4 rounded-lg border border-indigo-100">
             <p className="text-sm text-slate-900 font-semibold mb-2">🔴 High Volatility:</p>

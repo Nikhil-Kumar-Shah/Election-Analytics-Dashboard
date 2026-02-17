@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FilterState } from '../types';
 import { getUniqueStates, getUniqueConstituencies, getUniqueYears } from '../services/dataService';
-import { LayoutDashboard, TrendingUp, Anchor, AlertCircle, Telescope, BookOpen, Menu, X, Filter, ChevronDown, Info, Search, Smartphone } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Anchor, AlertCircle, Telescope, BookOpen, Menu, X, Filter, ChevronDown, Info, Search, Smartphone, Loader2 } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,6 +16,7 @@ interface LayoutProps {
   filters: FilterState;
   onFilterChange: (newFilters: FilterState) => void;
   dataReady: boolean;
+  isFiltering?: boolean;
 }
 
 const NAV_ITEMS = [
@@ -27,7 +28,7 @@ const NAV_ITEMS = [
   { view: View.METHODOLOGY, icon: BookOpen, label: 'Methodology' },
 ];
 
-export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigate, filters, onFilterChange, dataReady }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigate, filters, onFilterChange, dataReady, isFiltering }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showStateFilter, setShowStateFilter] = useState(false);
   const [showConstituencyFilter, setShowConstituencyFilter] = useState(false);
@@ -210,6 +211,13 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
           </div>
           
           <div className="flex items-center gap-3 flex-wrap">
+             {/* Loading Indicator */}
+             {isFiltering && (
+               <div className="bg-blue-50 p-2 rounded-full mr-1">
+                 <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
+               </div>
+             )}
+
              {/* State Filter */}
              <div className="relative" data-dropdown>
                <button 
