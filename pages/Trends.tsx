@@ -223,11 +223,19 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
             <p className="text-sm text-slate-500 mt-1 font-medium">Number of constituencies by turnout bracket</p>
           </div>
           <ComparisonBarChart data={buckets} xKey="name" yKey="count" />
-          <div className="mt-6 p-4 bg-slate-50 rounded-xl text-sm text-slate-600 border border-slate-100">
-            <strong className="text-slate-900">Interpretation:</strong>{' '}
-            {buckets[0].count > buckets[4].count
-              ? 'Left-skewed distribution indicates widespread low participation challenges.'
-              : 'Distribution shows healthy participation across most constituencies.'}
+          <div className="mt-6 p-4 bg-blue-50 rounded-xl text-sm text-slate-700 border border-blue-200">
+            <div className="mb-3">
+              <strong className="text-slate-900 block mb-1">📊 What This Tells Us:</strong>
+              {buckets[0].count > buckets[4].count
+                ? `Turnout ranges from <50% to >80%, with ${buckets[0].count.toLocaleString()} constituencies below 50% (${((buckets[0].count / data.length) * 100).toFixed(1)}% of total). This left-skewed distribution indicates widespread low participation challenges requiring systematic intervention.`
+                : `Most constituencies show healthy turnout levels. ${buckets[4].count.toLocaleString()} constituencies exceed 80% turnout (${((buckets[4].count / data.length) * 100).toFixed(1)}% of total), demonstrating strong democratic engagement in these areas.`}
+            </div>
+            <div className="pt-3 border-t border-blue-200">
+              <strong className="text-blue-900 block mb-1">💡 Policy Implication:</strong>
+              {buckets[0].count > buckets[4].count
+                ? 'Focus resources on the low-turnout tier (<50%). Targeted SVEEP campaigns, accessible polling infrastructure, and voter list verification can shift the distribution rightward.'
+                : 'Maintain current strategies while studying high-performing constituencies to replicate success factors in moderate-turnout areas.'}
+            </div>
           </div>
         </div>
       </div>
@@ -297,6 +305,21 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
         ) : (
           <div className="h-32 flex items-center justify-center text-slate-400">
             <p>No year-over-year change data available</p>
+          </div>
+        )}
+        
+        {changeData.length > 0 && (
+          <div className="mt-6 p-4 bg-indigo-50 rounded-xl text-sm text-slate-700 border border-indigo-200">
+            <div className="mb-3">
+              <strong className="text-slate-900 block mb-1">📊 What This Tells Us:</strong>
+              Positive changes (green) may indicate successful campaign mobilization, competitive contests, or resolved local access issues. 
+              Negative changes (red) warn of systematic erosion - potential causes include voter apathy, demographic shifts, infrastructure decay, or electoral roll inaccuracies.
+            </div>
+            <div className="pt-3 border-t border-indigo-200">
+              <strong className="text-indigo-900 block mb-1">💡 Decision Support:</strong>
+              Investigate declining constituencies (red) for root causes. Deploy mobile polling units, conduct voter awareness drives, 
+              and audit electoral rolls. Study increasing constituencies (green) to identify replicable best practices.
+            </div>
           </div>
         )}
       </div>

@@ -7,7 +7,7 @@
 import React from 'react';
 import { ConstituencyData } from '../types';
 import { DriverScatterChart } from '../components/Charts';
-import { AlertTriangle, Info } from 'lucide-react';
+import { AlertTriangle, Info, Lightbulb } from 'lucide-react';
 
 interface DriversProps {
   data: ConstituencyData[];
@@ -204,19 +204,25 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
 
       {/* Summary Insights */}
       <div className="bg-slate-900 text-white p-8 rounded-2xl shadow-xl">
-        <h3 className="text-xl font-bold mb-4">Key Takeaways</h3>
+        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+          <Lightbulb className="text-amber-400" size={24} />
+          Key Takeaways & Decision Support
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
           <div className="bg-white/5 p-5 rounded-xl border border-white/10">
-            <div className="font-bold text-amber-400 mb-2">Competition Matters</div>
-            <p className="text-slate-300">More candidates and closer margins generally correlate with higher engagement, though correlation ≠ causation.</p>
+            <div className="font-bold text-amber-400 mb-2">📊 Competition Matters</div>
+            <p className="text-slate-300 mb-3">More candidates and closer margins generally correlate with higher engagement, though correlation ≠ causation.</p>
+            <p className="text-xs text-amber-200 italic">Implication: Competitive contests drive participation. Strengthen multi-party engagement.</p>
           </div>
           <div className="bg-white/5 p-5 rounded-xl border border-white/10">
-            <div className="font-bold text-amber-400 mb-2">Scale Challenges</div>
-            <p className="text-slate-300">Larger constituencies face participation barriers - infrastructure and awareness campaigns must scale accordingly.</p>
+            <div className="font-bold text-amber-400 mb-2">🏙️ Scale Challenges</div>
+            <p className="text-slate-300 mb-3">Larger constituencies (urban centers) face systematic participation barriers - infrastructure and awareness must scale accordingly.</p>
+            <p className="text-xs text-amber-200 italic">Implication: Urban low turnout requires infrastructure upgrades (weekend voting, mobile booths).</p>
           </div>
           <div className="bg-white/5 p-5 rounded-xl border border-white/10">
-            <div className="font-bold text-amber-400 mb-2">Context Required</div>
-            <p className="text-slate-300">External factors (weather, local events, demographics) not shown here also significantly influence turnout.</p>
+            <div className="font-bold text-amber-400 mb-2">⚠️ Context Required</div>
+            <p className="text-slate-300 mb-3">External factors (demographics, weather, local events, socioeconomic conditions) not captured here also significantly influence turnout.</p>
+            <p className="text-xs text-amber-200 italic">Implication: These correlations guide, but not replace, field-level investigation.</p>
           </div>
         </div>
       </div>
