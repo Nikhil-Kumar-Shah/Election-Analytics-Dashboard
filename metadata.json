@@ -1,0 +1,5 @@
+{
+  "name": "Election Participation Analytics",
+  "description": "A data-driven dashboard for analyzing voter turnout trends, drivers, and priority areas for election authorities.",
+  "requestFramePermissions": []
+}
