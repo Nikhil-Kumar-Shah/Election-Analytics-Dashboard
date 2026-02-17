@@ -25,8 +25,8 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
   const decliningPct = data.length > 0 ? ((decliningCount / data.length) * 100).toFixed(0) : '0';
   
   const highestPriority = data.length > 0 
-    ? Math.max(...data.map(d => d.priority_score)).toFixed(3)
-    : '0.000';
+    ? (Math.max(...data.map(d => d.priority_score)) * 100).toFixed(1) + '%'
+    : '0.0%';
   
   // Empty state check
   if (data.length === 0) {
@@ -112,9 +112,11 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
       <div className="bg-gradient-to-r from-blue-50 to-white border-l-4 border-blue-600 p-8 rounded-r-2xl shadow-sm">
         <h3 className="font-bold text-blue-900 text-xl mb-4">Executive Summary</h3>
         <p className="text-blue-800/90 leading-relaxed max-w-4xl">
-          <strong>Reimagining Elections Through Data: Participation, Risk, and Prioritization.</strong> Across {countConstituencies.toLocaleString()} constituencies in {filters.year}, 
-          turnout ranges from {Math.min(...data.map(d => d.turnout)).toFixed(1)}% to {Math.max(...data.map(d => d.turnout)).toFixed(1)}%, with an average of {avgTurnout}%. 
-          {decliningPct}% of constituencies experienced declining turnout from the previous cycle, revealing widespread disengagement requiring urgent intervention.
+          In {filters.year}, the average voter turnout across {countConstituencies.toLocaleString()} constituencies was <strong>{avgTurnout}%</strong>. 
+          Turnout ranges from {Math.min(...data.map(d => d.turnout)).toFixed(1)}% to {Math.max(...data.map(d => d.turnout)).toFixed(1)}%, 
+          with <strong>{data.filter(d => d.turnout < 50).length.toLocaleString()} constituencies below 50%</strong> participation. 
+          <strong>{decliningPct}% of constituencies</strong> experienced a decline compared to the previous election cycle, indicating widespread engagement challenges. 
+          Several constituencies also exhibit high volatility in turnout, signaling unstable participation patterns that require targeted intervention.
         </p>
       </div>
 
