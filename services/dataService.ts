@@ -53,16 +53,36 @@ const loadData = async (): Promise<void> => {
   
   loadingPromise = (async () => {
     try {
-      const response = await fetch('/dataset/constituency_level.csv');
-      if (!response.ok) throw new Error('Failed to fetch data');
+      // Use absolute path from public folder (works in both dev and production)
+      const csvPath = `${import.meta.env.BASE_URL || '/'}dataset/constituency_level.csv`;
+      console.log('Loading CSV from:', csvPath);
+      
+      const response = await fetch(csvPath);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const text = await response.text();
+      
+      if (!text || text.trim().length === 0) {
+        throw new Error('CSV file is empty');
+      }
+      
       RAW_DATA = parseCSV(text);
+      
+      if (RAW_DATA.length === 0) {
+        throw new Error('No data parsed from CSV');
+      }
+      
       dataLoaded = true;
-      console.log(`✓ Loaded ${RAW_DATA.length} records from CSV`);
+      console.log(`✓ Successfully loaded ${RAW_DATA.length} records from CSV`);
     } catch (error) {
-      console.error('Error loading CSV:', error);
+      console.error('❌ Error loading CSV:', error);
+      console.error('Please ensure dataset/constituency_level.csv exists in the public folder');
       RAW_DATA = [];
       dataLoaded = false;
+      throw error; // Re-throw to allow proper error handling in components
     }
   })();
   
