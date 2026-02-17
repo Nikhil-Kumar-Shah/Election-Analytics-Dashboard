@@ -16,6 +16,7 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showScenario, setShowScenario] = useState(false);
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+  const [sortConfig, setSortConfig] = useState<{key: string; direction: 'asc' | 'desc'}>({key: 'customScore', direction: 'desc'});
   
   // Custom weights (default: 40/30/20/10)
   const [weights, setWeights] = useState({
@@ -72,8 +73,22 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
     });
   }, [data, weights]);
   
-  // Sort by Custom Priority Score Descending
-  const sortedData = [...normalizedData].sort((a, b) => b.customScore - a.customScore);
+  // Sort by selected column
+  const handleSort = (key: string) => {
+    setSortConfig(current => ({
+      key,
+      direction: current.key === key && current.direction === 'desc' ? 'asc' : 'desc'
+    }));
+  };
+  
+  const sortedData = [...normalizedData].sort((a: any, b: any) => {
+    const aVal = a[sortConfig.key];
+    const bVal = b[sortConfig.key];
+    if (sortConfig.direction === 'desc') {
+      return bVal > aVal ? 1 : -1;
+    }
+    return aVal > bVal ? 1 : -1;
+  });
   
   // Filter by search (trim whitespace and search both constituency and state names)
   const filteredData = sortedData.filter(d => {
@@ -86,6 +101,30 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
     if (change > 1) return 'rising';
     if (change < -1) return 'falling';
     return 'stable';
+  };
+  
+  // Export CSV function
+  const exportCSV = () => {
+    const headers = ['Rank', 'State', 'Constituency', 'Total Electors', 'Current Turnout %', 'Avg Turnout %', 'YoY Change %', 'Volatility', 'Priority Score %'];
+    const rows = filteredData.slice(0, 100).map((row, idx) => [
+      idx + 1,
+      row.state_name,
+      row.ac_name,
+      row.total_electors,
+      row.turnout.toFixed(1),
+      row.avg_turnout.toFixed(1),
+      row.turnout_change.toFixed(1),
+      row.turnout_volatility.toFixed(2),
+      (row.customScore * 100).toFixed(1)
+    ]);
+    const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `priority_constituencies_${new Date().getFullYear()}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -227,6 +266,13 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[250px]"
               />
+              <button
+                onClick={exportCSV}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-2"
+              >
+                <Download size={16} />
+                Export CSV
+              </button>
               <a 
                 href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 
                 target="_blank" 
@@ -234,7 +280,7 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-2"
               >
                  <Download size={16} />
-                 View Source Data
+                 View Source
               </a>
            </div>
         </div>
@@ -242,15 +288,15 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-slate-400 font-semibold uppercase bg-slate-50/50 border-b border-slate-100 sticky top-0">
               <tr>
-                <th className="px-6 py-4">Rank</th>
-                <th className="px-6 py-4">State</th>
-                <th className="px-6 py-4">Constituency</th>
-                <th className="px-6 py-4 text-right">Electors</th>
-                <th className="px-6 py-4 text-right">Turnout</th>
-                <th className="px-6 py-4 text-right">Avg Turnout</th>
-                <th className="px-6 py-4 text-center">Trend</th>
-                <th className="px-6 py-4 text-right">Volatility</th>
-                <th className="px-6 py-4 text-right">Priority Score</th>
+                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('customScore')}>Rank {sortConfig.key === 'customScore' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('state_name')}>State {sortConfig.key === 'state_name' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('ac_name')}>Constituency {sortConfig.key === 'ac_name' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 text-right cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('total_electors')}>Electors {sortConfig.key === 'total_electors' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 text-right cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('turnout')}>Turnout {sortConfig.key === 'turnout' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 text-right cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('avg_turnout')}>Avg Turnout {sortConfig.key === 'avg_turnout' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 text-center cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('turnout_change')}>Trend {sortConfig.key === 'turnout_change' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 text-right cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('turnout_volatility')}>Volatility {sortConfig.key === 'turnout_volatility' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
+                <th className="px-6 py-4 text-right cursor-pointer hover:bg-slate-100 transition-colors" onClick={() => handleSort('customScore')}>Priority Score {sortConfig.key === 'customScore' && (sortConfig.direction === 'desc' ? '↓' : '↑')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -309,7 +355,7 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
                                 style={{ width: `${Math.min(row.customScore * 100, 100)}%` }}
                               ></div>
                            </div>
-                           <span className="font-bold text-slate-800 w-12 text-right">{row.customScore.toFixed(3)}</span>
+                           <span className="font-bold text-slate-800 w-14 text-right">{(row.customScore * 100).toFixed(1)}%</span>
                          </div>
                       </td>
                     </tr>

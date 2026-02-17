@@ -28,6 +28,19 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
     ? Math.max(...data.map(d => d.priority_score)).toFixed(3)
     : '0.000';
   
+  // Empty state check
+  if (data.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-96 text-center">
+        <AlertTriangle className="text-slate-300 mb-4" size={64} />
+        <h3 className="text-xl font-bold text-slate-700 mb-2">No Data Available</h3>
+        <p className="text-slate-500 max-w-md">
+          No constituencies match your current filter selection. Try adjusting the state, constituency, or year filters to see data.
+        </p>
+      </div>
+    );
+  }
+  
   // Sort by priority for top 10 table
   const topPriority = [...data]
     .sort((a, b) => b.priority_score - a.priority_score)
@@ -95,9 +108,9 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
       <div className="bg-gradient-to-r from-blue-50 to-white border-l-4 border-blue-600 p-8 rounded-r-2xl shadow-sm">
         <h3 className="font-bold text-blue-900 text-xl mb-4">Executive Summary</h3>
         <p className="text-blue-800/90 leading-relaxed max-w-4xl">
-          <strong>Reimagining Elections Through Data: Participation, Risk, and Prioritization.</strong> This dashboard provides comprehensive analytics 
-          on voter turnout trends across Indian constituencies. Our analysis reveals significant variation in participation rates, 
-          with persistent low-turnout areas requiring targeted intervention.
+          <strong>Reimagining Elections Through Data: Participation, Risk, and Prioritization.</strong> Across {countConstituencies.toLocaleString()} constituencies in {filters.year}, 
+          turnout ranges from {Math.min(...data.map(d => d.turnout)).toFixed(1)}% to {Math.max(...data.map(d => d.turnout)).toFixed(1)}%, with an average of {avgTurnout}%. 
+          {decliningPct}% of constituencies experienced declining turnout from the previous cycle, revealing widespread disengagement requiring urgent intervention.
         </p>
       </div>
 
@@ -106,7 +119,7 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
         <FindingCard 
           number="01"
           title="Participation Variance"
-          text="Participation varies widely across constituencies, with turnout ranging from under 40% to over 90%, indicating local governance and engagement factors are critical drivers."
+          text={`Turnout ranges from ${Math.min(...data.map(d => d.turnout)).toFixed(1)}% to ${Math.max(...data.map(d => d.turnout)).toFixed(1)}% across ${countConstituencies.toLocaleString()} constituencies, with ${data.filter(d => d.turnout < 50).length} constituencies below 50% participation, indicating local governance and engagement factors are critical drivers.`}
         />
         <FindingCard 
           number="02"
@@ -156,7 +169,7 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
                           style={{ width: `${Math.min(row.priority_score * 100, 100)}%` }}
                         ></div>
                       </div>
-                      <span className="font-bold text-slate-800 w-12 text-right">{row.priority_score.toFixed(3)}</span>
+                      <span className="font-bold text-slate-800 w-12 text-right">{(row.priority_score * 100).toFixed(1)}%</span>
                     </div>
                   </td>
                 </tr>

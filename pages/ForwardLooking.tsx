@@ -46,6 +46,19 @@ export const ForwardLooking: React.FC<ForwardLookingProps> = ({ data }) => {
 
   return (
     <div className="space-y-8">
+      {/* Rationale Box - Why This Matters */}
+      <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-2xl shadow-sm">
+        <h3 className="font-bold text-blue-900 text-lg mb-2 flex items-center gap-2">
+          <AlertTriangle className="text-blue-600" size={20} />
+          Why Volatility and Negative Changes Matter
+        </h3>
+        <p className="text-sm text-blue-800/90 leading-relaxed">
+          <strong>High volatility</strong> signals unpredictable engagement patterns, making it difficult to plan resources and infrastructure. 
+          <strong> Large negative changes</strong> suggest systematic erosion of voter confidence or logistical barriers requiring immediate investigation. 
+          Monitoring these early-warning signals enables proactive intervention before constituencies experience sustained democratic disengagement.
+        </p>
+      </div>
+
        <div className="bg-amber-50 border border-amber-200 p-8 rounded-2xl">
         <div className="flex items-start gap-3">
           <AlertTriangle className="text-amber-600 mt-1" size={24} />
@@ -161,7 +174,7 @@ export const ForwardLooking: React.FC<ForwardLookingProps> = ({ data }) => {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right font-mono text-slate-600">{row.turnout_volatility.toFixed(2)}</td>
-                    <td className="px-6 py-4 text-right font-bold text-red-700">{row.priority_score.toFixed(3)}</td>
+                    <td className="px-6 py-4 text-right font-bold text-red-700">{(row.priority_score * 100).toFixed(1)}%</td>
                   </tr>
                 );
               })}

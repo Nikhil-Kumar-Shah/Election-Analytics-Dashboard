@@ -40,6 +40,55 @@ export const Methodology: React.FC = () => {
                 <br/><strong>States Covered:</strong> All Indian states and union territories with assembly elections
               </p>
             </div>
+            
+            {/* Visual Pipeline Diagram */}
+            <div className="bg-gradient-to-r from-slate-50 to-slate-100 border-2 border-slate-300 rounded-xl p-6 mt-6">
+              <h4 className="text-sm font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <Code className="text-purple-600" size={16} />
+                Reproducible Data Pipeline
+              </h4>
+              <div className="flex items-center justify-between text-xs font-mono">
+                <div className="flex flex-col items-center">
+                  <div className="bg-blue-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
+                    Raw CSV
+                  </div>
+                  <span className="text-slate-500 mt-1 text-[10px]">10,514 records</span>
+                </div>
+                <div className="text-slate-400 text-2xl">→</div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-emerald-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
+                    Data Cleaning
+                  </div>
+                  <span className="text-slate-500 mt-1 text-[10px]">Remove nulls</span>
+                </div>
+                <div className="text-slate-400 text-2xl">→</div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-amber-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
+                    Aggregation
+                  </div>
+                  <span className="text-slate-500 mt-1 text-[10px]">Group by year</span>
+                </div>
+                <div className="text-slate-400 text-2xl">→</div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-purple-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
+                    Feature Eng.
+                  </div>
+                  <span className="text-slate-500 mt-1 text-[10px]">Calc volatility</span>
+                </div>
+                <div className="text-slate-400 text-2xl">→</div>
+                <div className="flex flex-col items-center">
+                  <div className="bg-red-500 text-white px-4 py-3 rounded-lg font-bold shadow-md">
+                    Priority Score
+                  </div>
+                  <span className="text-slate-500 mt-1 text-[10px]">40/30/20/10</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-slate-300 text-slate-600 text-xs leading-relaxed">
+                <strong className="text-slate-800">Tools:</strong> Data processing in TypeScript (dataService.ts), 
+                visualization using React + Recharts, deployed to Vercel for public access. 
+                All calculations are deterministic and can be independently verified.
+              </div>
+            </div>
           </div>
         </section>
 
@@ -85,7 +134,7 @@ export const Methodology: React.FC = () => {
           </h3>
           <div className="pl-8 space-y-4 text-slate-600">
             <p>
-              The <strong className="text-slate-800">Priority Score</strong> is a composite index (0-1 scale, displayed as 0-100 or 0.000-1.000) 
+              The <strong className="text-slate-800">Priority Score</strong> is a composite index (0-1 scale, displayed as 0-100% for clarity) 
               designed to rank constituencies by intervention urgency. Higher scores indicate higher priority.
             </p>
             

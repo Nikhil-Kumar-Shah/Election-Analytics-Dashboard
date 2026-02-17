@@ -7,29 +7,49 @@
 import React from 'react';
 import { ConstituencyData } from '../types';
 import { DriverScatterChart } from '../components/Charts';
+import { AlertTriangle } from 'lucide-react';
 
 interface DriversProps {
   data: ConstituencyData[];
 }
 
 export const Drivers: React.FC<DriversProps> = ({ data }) => {
-  // Prepare scatter data
+  // Empty state check
+  if (data.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center h-96 text-center">
+        <AlertTriangle className="text-slate-300 mb-4" size={64} />
+        <h3 className="text-xl font-bold text-slate-700 mb-2">No Data Available</h3>
+        <p className="text-slate-500 max-w-md">
+          No constituencies match your current filter selection. Adjust filters to analyze turnout drivers.
+        </p>
+      </div>
+    );
+  }
+  
+  // Prepare scatter data with constituency names
   const scatterCandidates = data.map(d => ({ 
     x: d.num_candidates, 
     y: d.turnout, 
-    z: d.total_electors / 1000 
+    z: d.total_electors / 1000,
+    name: d.ac_name,
+    state: d.state_name
   }));
   
   const scatterMargin = data.map(d => ({ 
     x: d.margin, 
     y: d.turnout, 
-    z: d.total_electors / 1000 
+    z: d.total_electors / 1000,
+    name: d.ac_name,
+    state: d.state_name
   }));
 
   const scatterElectors = data.map(d => ({ 
     x: d.total_electors / 1000, 
     y: d.turnout, 
-    z: d.num_candidates 
+    z: d.num_candidates,
+    name: d.ac_name,
+    state: d.state_name
   }));
 
   // Calculate correlation coefficients (Pearson r)
@@ -78,18 +98,34 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
         {/* Scatter 1: Candidates vs Turnout */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
           <h4 className="font-bold text-slate-800 mb-6 text-lg">Turnout vs. Number of Candidates</h4>
-          <DriverScatterChart data={scatterCandidates} xKey="x" yKey="y" zKey="z" name="Turnout %" />
+          <DriverScatterChart 
+            data={scatterCandidates} 
+            xKey="x" 
+            yKey="y" 
+            zKey="z" 
+            name="Turnout %"
+            xLabel="Number of Candidates"
+            yLabel="Turnout %"
+          />
           <div className="mt-6 text-xs text-slate-500 border-t pt-4 border-slate-100 leading-relaxed">
             <strong className="text-slate-800">Observation:</strong> More candidates typically drive higher turnout due to increased mobilization, 
             though extreme fragmentation (20+ candidates) may dilute voter clarity.
-            <br/><span className="italic text-slate-400 mt-1 block">X-Axis: # Candidates, Y-Axis: Turnout %, Bubble Size: Electorate (thousands)</span>
+            <br/><span className="italic text-slate-400 mt-1 block">Bubble Size: Electorate (thousands)</span>
           </div>
         </div>
 
         {/* Scatter 2: Margin vs Turnout */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
           <h4 className="font-bold text-slate-800 mb-6 text-lg">Turnout vs. Victory Margin</h4>
-          <DriverScatterChart data={scatterMargin} xKey="x" yKey="y" zKey="z" name="Turnout %" />
+          <DriverScatterChart 
+            data={scatterMargin} 
+            xKey="x" 
+            yKey="y" 
+            zKey="z" 
+            name="Turnout %"
+            xLabel="Victory Margin (%)"
+            yLabel="Turnout %"
+          />
           <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
             <p className="text-xs font-bold text-blue-900">
               Pearson r = {corrMargin} ({getCorrelationStrength(parseFloat(corrMargin))} {getCorrelationDirection(parseFloat(corrMargin))} correlation)
@@ -98,14 +134,22 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
           <div className="mt-4 text-xs text-slate-500 border-t pt-4 border-slate-100 leading-relaxed">
             <strong className="text-slate-800">Observation:</strong> Closer races (lower margins) often correlate with higher turnout as voters 
             perceive their vote as more impactful. Landslide victories may suppress participation.
-            <br/><span className="italic text-slate-400 mt-1 block">X-Axis: Margin, Y-Axis: Turnout %, Bubble Size: Electorate (thousands)</span>
+            <br/><span className="italic text-slate-400 mt-1 block">Bubble Size: Electorate (thousands)</span>
           </div>
         </div>
 
         {/* Scatter 3: Electorate Size vs Turnout */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
           <h4 className="font-bold text-slate-800 mb-6 text-lg">Turnout vs. Total Electors</h4>
-          <DriverScatterChart data={scatterElectors} xKey="x" yKey="y" zKey="z" name="Turnout %" />
+          <DriverScatterChart 
+            data={scatterElectors} 
+            xKey="x" 
+            yKey="y" 
+            zKey="z" 
+            name="Turnout %"
+            xLabel="Total Electors (thousands)"
+            yLabel="Turnout %"
+          />
           <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-100">
             <p className="text-xs font-bold text-blue-900">
               Pearson r = {corrElectors} ({getCorrelationStrength(parseFloat(corrElectors))} {getCorrelationDirection(parseFloat(corrElectors))} correlation)
@@ -114,7 +158,7 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
           <div className="mt-4 text-xs text-slate-500 border-t pt-4 border-slate-100 leading-relaxed">
             <strong className="text-slate-800">Observation:</strong> Large electorates (urban centers) often demonstrate lower turnout, 
             suggesting logistical challenges or urban apathy. Smaller constituencies tend to exhibit higher participation rates.
-            <br/><span className="italic text-slate-400 mt-1 block">X-Axis: Total Electors (thousands), Y-Axis: Turnout %, Bubble Size: # Candidates</span>
+            <br/><span className="italic text-slate-400 mt-1 block">Bubble Size: Number of Candidates</span>
           </div>
         </div>
       </div>
