@@ -129,7 +129,20 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
 
         {/* Scatter 2: Margin vs Turnout */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-          <h4 className="font-bold text-slate-800 mb-6 text-lg">Turnout vs. Victory Margin</h4>
+          <div className="flex items-center gap-2 mb-6">
+            <h4 className="font-bold text-slate-800 text-lg">Turnout vs. Victory Margin</h4>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-72 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Relationship between electoral competitiveness (margin between winner and runner-up) and voter turnout.
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Expected Pattern:</strong>
+                  Close races (low margin) → voters feel vote matters → higher turnout (negative correlation).
+                </div>
+              </div>
+            </div>
+          </div>
           <DriverScatterChart 
             data={scatterMargin} 
             xKey="x" 
@@ -153,7 +166,20 @@ export const Drivers: React.FC<DriversProps> = ({ data }) => {
 
         {/* Scatter 3: Electorate Size vs Turnout */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm lg:col-span-2">
-          <h4 className="font-bold text-slate-800 mb-6 text-lg">Turnout vs. Total Electors</h4>
+          <div className="flex items-center gap-2 mb-6">
+            <h4 className="font-bold text-slate-800 text-lg">Turnout vs. Total Electors</h4>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-72 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Relationship between constituency size (total registered voters) and turnout percentage.
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Expected Pattern:</strong>
+                  Larger electorates (urban) → logistical challenges → lower turnout (negative correlation).
+                </div>
+              </div>
+            </div>
+          </div>
           <DriverScatterChart 
             data={scatterElectors} 
             xKey="x" 

@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { ConstituencyData } from '../types';
-import { AlertTriangle, TrendingDown, Activity, CircleAlert } from 'lucide-react';
+import { AlertTriangle, TrendingDown, Activity, CircleAlert, Info } from 'lucide-react';
 
 interface ForwardLookingProps {
   data: ConstituencyData[];
@@ -78,6 +78,17 @@ export const ForwardLooking: React.FC<ForwardLookingProps> = ({ data }) => {
           <div className="flex items-center gap-3 mb-6">
             <Activity className="text-blue-600" size={24} />
             <h4 className="font-bold text-slate-800 text-lg">Highest Volatility Constituencies</h4>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-72 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Constituencies with highest turnout volatility (σ = standard deviation) across election cycles.
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Why it matters:</strong>
+                  High volatility = unpredictable engagement, making resource planning difficult and indicating systemic instability.
+                </div>
+              </div>
+            </div>
           </div>
           <div className="space-y-3">
             {volatile.map((v, idx) => (
@@ -105,6 +116,17 @@ export const ForwardLooking: React.FC<ForwardLookingProps> = ({ data }) => {
           <div className="flex items-center gap-3 mb-6">
             <TrendingDown className="text-red-600" size={24} />
             <h4 className="font-bold text-slate-800 text-lg">Largest Recent Declines</h4>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-72 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Constituencies with the largest negative turnout changes from previous election cycle.
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Why it matters:</strong>
+                  Sharp declines signal systematic erosion of voter confidence or logistical barriers requiring urgent investigation.
+                </div>
+              </div>
+            </div>
           </div>
           <div className="space-y-3">
             {declining.map((d, idx) => (

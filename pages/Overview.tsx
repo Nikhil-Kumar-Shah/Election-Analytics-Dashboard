@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { ConstituencyData, FilterState } from '../types';
-import { Users, TrendingDown, Activity, AlertTriangle, Lightbulb, BookOpen } from 'lucide-react';
+import { Users, TrendingDown, Activity, AlertTriangle, Lightbulb, BookOpen, Info } from 'lucide-react';
 
 interface OverviewProps {
   data: ConstituencyData[];
@@ -55,28 +55,32 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
           value={`${avgTurnout}%`} 
           subtext={`Year ${filters.year}`} 
           icon={Activity} 
-          color="blue" 
+          color="blue"
+          tooltip="Average voter turnout across all selected constituencies for the chosen year. Higher percentages indicate stronger democratic participation."
         />
         <KpiCard 
           title="Constituencies" 
           value={countConstituencies.toString()} 
           subtext="In selected scope" 
           icon={Users} 
-          color="slate" 
+          color="slate"
+          tooltip="Total number of unique constituencies matching your current filter selection (state, year, etc.)."
         />
         <KpiCard 
           title="Declining Trend" 
           value={`${decliningPct}%`} 
           subtext="Negative turnout change" 
           icon={TrendingDown} 
-          color="amber" 
+          color="amber"
+          tooltip="Percentage of constituencies showing negative year-over-year turnout change, indicating declining voter engagement requiring investigation."
         />
         <KpiCard 
           title="Highest Priority" 
           value={highestPriority} 
           subtext="Maximum score" 
           icon={AlertTriangle} 
-          color="red" 
+          color="red"
+          tooltip="Maximum priority score observed (composite metric combining low turnout, negative trend, volatility, and constituency size). Higher scores indicate urgent intervention need."
         />
       </div>
 
@@ -136,7 +140,20 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
       {/* Top Priority Table */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-8 py-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-white">
-          <h3 className="font-bold text-slate-800 text-xl">Top 10 Priority Constituencies (Year {filters.year})</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="font-bold text-slate-800 text-xl">Top 10 Priority Constituencies (Year {filters.year})</h3>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-80 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Constituencies ranked by composite priority score (combining low turnout, negative trend, volatility, and size).
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Judge's Insight:</strong>
+                  These are the highest-risk constituencies requiring immediate targeted intervention and resource allocation.
+                </div>
+              </div>
+            </div>
+          </div>
           <p className="text-sm text-slate-500 mt-1 font-medium">Ranked by composite priority score - highest intervention need</p>
         </div>
         <div className="overflow-x-auto">
@@ -221,7 +238,7 @@ export const Overview: React.FC<OverviewProps> = ({ data, filters }) => {
 };
 
 // Sub-components
-const KpiCard = ({ title, value, subtext, icon: Icon, color }: any) => {
+const KpiCard = ({ title, value, subtext, icon: Icon, color, tooltip }: any) => {
   const colorClasses: Record<string, string> = {
     blue: "bg-blue-50 text-blue-600",
     slate: "bg-slate-50 text-slate-600",
@@ -231,8 +248,18 @@ const KpiCard = ({ title, value, subtext, icon: Icon, color }: any) => {
 
   return (
     <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow flex items-start justify-between group">
-      <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">{title}</p>
+      <div className="flex-1">
+        <div className="flex items-center gap-2 mb-1">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400">{title}</p>
+          {tooltip && (
+            <div className="group/tooltip relative">
+              <Info size={12} className="text-slate-300 cursor-help" />
+              <div className="absolute left-0 top-5 hidden group-hover/tooltip:block w-64 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                {tooltip}
+              </div>
+            </div>
+          )}
+        </div>
         <h3 className="text-3xl font-bold text-slate-900">{value}</h3>
         <p className="text-sm font-medium text-slate-400 mt-1">{subtext}</p>
       </div>

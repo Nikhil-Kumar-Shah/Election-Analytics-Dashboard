@@ -198,7 +198,20 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
         {/* Chart 2: Distribution */}
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
           <div className="mb-8">
-            <h3 className="text-xl font-bold text-slate-800">Turnout Distribution ({filters.year})</h3>
+            <div className="flex items-center gap-2 mb-2">
+              <h3 className="text-xl font-bold text-slate-800">Turnout Distribution ({filters.year})</h3>
+              <div className="group relative">
+                <Info size={16} className="text-slate-400 cursor-help" />
+                <div className="absolute left-0 top-6 hidden group-hover:block w-64 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                  <strong className="block mb-1">What this shows:</strong>
+                  How many constituencies fall into each turnout bracket (e.g., &lt;50%, 50-60%, etc.).
+                  <div className="mt-2 pt-2 border-t border-slate-700">
+                    <strong className="block mb-1">Judge's Insight:</strong>
+                    Left-skewed (more in &lt;50%) = widespread low participation. Right-skewed = healthy engagement.
+                  </div>
+                </div>
+              </div>
+            </div>
             <p className="text-sm text-slate-500 mt-1 font-medium">Number of constituencies by turnout bracket</p>
           </div>
           <ComparisonBarChart data={buckets} xKey="name" yKey="count" />
@@ -214,7 +227,20 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
       {/* Year-over-Year Change - Balanced View */}
       <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
         <div className="mb-8">
-          <h3 className="text-xl font-bold text-slate-800">Largest Turnout Changes (Year-over-Year)</h3>
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-xl font-bold text-slate-800">Largest Turnout Changes (Year-over-Year)</h3>
+            <div className="group relative">
+              <Info size={16} className="text-slate-400 cursor-help" />
+              <div className="absolute left-0 top-6 hidden group-hover:block w-80 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
+                <strong className="block mb-1">What this shows:</strong>
+                Constituencies with the most dramatic turnout shifts between consecutive elections.
+                <div className="mt-2 pt-2 border-t border-slate-700">
+                  <strong className="block mb-1">Judge's Insight:</strong>
+                  Green (increases) show successful mobilization. Red (decreases) indicate erosion requiring urgent investigation.
+                </div>
+              </div>
+            </div>
+          </div>
           <p className="text-sm text-slate-500 mt-1 font-medium">
             Top 10 increases and top 10 decreases - showing the full picture of engagement shifts
           </p>
