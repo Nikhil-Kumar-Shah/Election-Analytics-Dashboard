@@ -111,37 +111,6 @@ Score = (Low_Turnout × 0.4) + (Negative_Trend × 0.3) + (Volatility × 0.2) + (
 - 20% Volatility: Unpredictability creates operational challenges
 - 10% Size: Large electorates amplify impact of low turnout
 
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+ and npm
-
-### Installation
-
-```bash
-# Navigate to project directory
-cd election-participation-analytics
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-The dashboard will be available at `http://localhost:3000` (or next available port).
-
-### Building for Production
-
-```bash
-npm run build
-npm run preview
-```
-
----
-
 ## 🎨 Features Breakdown
 
 ### Global Filters (Available on Every Page)
