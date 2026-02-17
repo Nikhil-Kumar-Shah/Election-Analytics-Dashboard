@@ -116,13 +116,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
   useEffect(() => {
     const hasShownWarning = sessionStorage.getItem('mobileWarningShown') === 'true';
     
+    // Only run this check if warning hasn't been shown before
     if (!hasShownWarning) {
       const checkMobile = () => {
         const isMobile = window.innerWidth < 768;
-        if (isMobile) {
+        if (isMobile && !hasShownWarning) {
           setShowMobileWarning(true);
-          // Mark as shown immediately to prevent re-showing on navigation
-          sessionStorage.setItem('mobileWarningShown', 'true');
         }
       };
       
@@ -140,6 +139,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
 
   const handleCloseMobileWarning = () => {
     setShowMobileWarning(false);
+    // Mark as shown only when user explicitly closes it
+    sessionStorage.setItem('mobileWarningShown', 'true');
   };
 
   return (

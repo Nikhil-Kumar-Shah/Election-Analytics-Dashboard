@@ -6,7 +6,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { ConstituencyData } from '../types';
-import { AlertCircle, ArrowDown, ArrowUp, Minus, Download, ChevronDown, ChevronUp, Sliders } from 'lucide-react';
+import { AlertCircle, ArrowDown, ArrowUp, Minus, Download, ChevronDown, ChevronUp, Sliders, ExternalLink } from 'lucide-react';
 
 interface PrioritizationProps {
   data: ConstituencyData[];
@@ -103,28 +103,14 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
     return 'stable';
   };
   
-  // Export CSV function
-  const exportCSV = () => {
-    const headers = ['Rank', 'State', 'Constituency', 'Total Electors', 'Current Turnout %', 'Avg Turnout %', 'YoY Change %', 'Volatility', 'Priority Score %'];
-    const rows = filteredData.slice(0, 100).map((row, idx) => [
-      idx + 1,
-      row.state_name,
-      row.ac_name,
-      row.total_electors,
-      row.turnout.toFixed(1),
-      row.avg_turnout.toFixed(1),
-      row.turnout_change.toFixed(1),
-      row.turnout_volatility.toFixed(2),
-      (row.customScore * 100).toFixed(1)
-    ]);
-    const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
+  // Export full dataset CSV function
+  const exportDataset = () => {
+    // Download the full constituency_level.csv dataset
+    const csvPath = `${import.meta.env.BASE_URL || '/'}dataset/constituency_level.csv`;
     const link = document.createElement('a');
-    link.href = url;
-    link.download = `priority_constituencies_${new Date().getFullYear()}.csv`;
+    link.href = csvPath;
+    link.download = 'constituency_level.csv';
     link.click();
-    URL.revokeObjectURL(url);
   };
 
   return (
@@ -267,19 +253,21 @@ export const Prioritization: React.FC<PrioritizationProps> = ({ data }) => {
                 className="px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-w-[250px]"
               />
               <button
-                onClick={exportCSV}
+                onClick={exportDataset}
                 className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-2"
+                title="Download full constituency_level.csv dataset"
               >
                 <Download size={16} />
-                Export CSV
+                Export Dataset
               </button>
               <a 
                 href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors flex items-center gap-2"
+                title="View source data on Google Sheets"
               >
-                 <Download size={16} />
+                 <ExternalLink size={16} />
                  View Source
               </a>
            </div>
