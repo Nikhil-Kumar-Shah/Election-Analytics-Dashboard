@@ -73,16 +73,7 @@ This interactive dashboard provides election authorities with actionable insight
   - Limitations & assumptions
   - Future enhancement suggestions
 
----
 
-## 🔧 Technical Stack
-
-- **Frontend**: React 19 + TypeScript
-- **Build Tool**: Vite 6
-- **Styling**: Tailwind CSS (via CDN)
-- **Charts**: Recharts 3.7
-- **Icons**: Lucide React
-- **Data**: CSV parsing from `constituency_level.csv`
 
 ---
 
