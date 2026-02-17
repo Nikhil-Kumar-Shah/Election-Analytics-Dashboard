@@ -1,7 +1,7 @@
 /**
  * Election Analytics Dashboard - Layout Component
- * Copyright (c) 2026 Nikhil Kumar Shah
- * All rights reserved. Unauthorized copying or distribution is prohibited.
+ * Copyright (c) 2026 Nikhil Kumar Shah. All rights reserved.
+ * Unauthorized reproduction or distribution prohibited.
  */
 
 import React, { useState, useEffect } from 'react';
