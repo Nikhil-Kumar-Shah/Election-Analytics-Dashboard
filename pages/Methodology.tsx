@@ -103,8 +103,64 @@ export const Methodology: React.FC = () => {
 
         <section>
           <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
-            <BarChart3 className="text-green-600" size={20} />
+            <Database className="text-indigo-600" size={20} />
             <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">2</span>
+            Data Pipeline: From Raw to Analysis-Ready
+          </h3>
+          <div className="pl-8 space-y-4 text-slate-600 leading-relaxed">
+            <p className="text-slate-700 font-medium">
+              This section explains how candidate-level raw records were systematically aggregated into constituency-year observations:
+            </p>
+            
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-200 space-y-3">
+              <div className="flex items-start gap-3 pb-3 border-b border-blue-200">
+                <span className="bg-blue-600 text-white font-bold text-xs px-2 py-1 rounded shadow-sm">Step 1</span>
+                <div className="flex-1">
+                  <strong className="text-slate-900">Clean Raw Candidate-Level Data</strong>
+                  <p className="text-xs mt-1 text-slate-600">Remove null values, validate turnout ranges (0-100%), exclude incomplete records</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3 pb-3 border-b border-blue-200">
+                <span className="bg-emerald-600 text-white font-bold text-xs px-2 py-1 rounded shadow-sm">Step 2</span>
+                <div className="flex-1">
+                  <strong className="text-slate-900">Aggregate to Constituency-Year Level</strong>
+                  <p className="text-xs mt-1 text-slate-600">GROUP BY (Constituency, Year): Calculate total votes, electors, turnout %, candidate count, victory margin</p>
+                  <p className="text-[10px] text-slate-500 italic mt-0.5">Output: ~10,500 constituency-year rows</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3 pb-3 border-b border-blue-200">
+                <span className="bg-amber-600 text-white font-bold text-xs px-2 py-1 rounded shadow-sm">Step 3</span>
+                <div className="flex-1">
+                  <strong className="text-slate-900">Calculate Temporal Metrics</strong>
+                  <p className="text-xs mt-1 text-slate-600">Compute: Average Turnout (MEAN), Turnout Change (YoY delta), Volatility (STDEV σ)</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <span className="bg-purple-600 text-white font-bold text-xs px-2 py-1 rounded shadow-sm">Step 4</span>
+                <div className="flex-1">
+                  <strong className="text-slate-900">Build Priority Score</strong>
+                  <p className="text-xs mt-1 text-slate-600 font-mono bg-white/60 px-2 py-1 rounded">Priority = Low_Turnout(40%) + Negative_Trend(30%) + Volatility(20%) + Size(10%)</p>
+                  <p className="text-[10px] text-slate-500 italic mt-0.5">Produces final dashboard-ready ranking</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-indigo-50 border-l-4 border-indigo-600 p-4 rounded-lg">
+              <p className="text-sm text-indigo-900 leading-relaxed">
+                <strong>Pipeline Integrity:</strong> This multi-stage transformation ensures data accuracy while enabling longitudinal trend analysis. 
+                Each step is deterministic and independently verifiable.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+            <BarChart3 className="text-green-600" size={20} />
+            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">3</span>
             Key Metrics & Definitions
           </h3>
           <ul className="pl-8 space-y-4 text-slate-600">
@@ -138,7 +194,7 @@ export const Methodology: React.FC = () => {
         <section>
           <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
              <Calculator className="text-amber-600" size={20} />
-             <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">3</span>
+             <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">4</span>
              Priority Scoring Algorithm
           </h3>
           <div className="pl-8 space-y-4 text-slate-600">
@@ -184,7 +240,7 @@ export const Methodology: React.FC = () => {
         <section>
           <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
             <AlertCircle className="text-red-600" size={20} />
-            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">4</span>
+            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">5</span>
             Limitations & Assumptions
           </h3>
           <ul className="pl-8 space-y-2 text-slate-600 text-sm leading-relaxed">
@@ -214,7 +270,7 @@ export const Methodology: React.FC = () => {
         <section>
           <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
             <Code className="text-purple-600" size={20} />
-            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">5</span>
+            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">6</span>
             Reproducibility & Transparency
           </h3>
           <div className="pl-8 space-y-3 text-slate-600 text-sm leading-relaxed">
@@ -251,7 +307,7 @@ export const Methodology: React.FC = () => {
         <section>
           <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
             <ShieldAlert className="text-red-600" size={20} />
-            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">6</span>
+            <span className="bg-slate-100 text-slate-600 w-6 h-6 rounded flex items-center justify-center text-xs">7</span>
             Ethical Use & Responsible Interpretation
           </h3>
           <div className="pl-8 space-y-3 text-slate-600 text-sm leading-relaxed">

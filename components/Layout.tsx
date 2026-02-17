@@ -474,14 +474,26 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
            <footer className="max-w-7xl mx-auto mt-16 pt-12 pb-8 border-t border-slate-200 bg-gradient-to-b from-transparent to-slate-50/50">
              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm mb-8">
                <div className="md:col-span-2">
-                 <h4 className="font-bold text-slate-900 mb-3 text-base">Election Participation Analytics</h4>
-                 <p className="text-xs leading-relaxed text-slate-600">Data-driven decision support for electoral intervention and engagement strategy. Empowering democratic institutions through evidence-based insights.</p>
+                 <h4 className="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">
+                   <LayoutDashboard size={18} className="text-blue-600" />
+                   Election Participation Analytics
+                 </h4>
+                 <p className="text-xs leading-relaxed text-slate-600 mb-3">
+                   Data-driven decision support for electoral intervention and engagement strategy. 
+                   Empowering democratic institutions through evidence-based insights.
+                 </p>
+                 <div className="flex flex-wrap gap-2">
+                   <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">React</span>
+                   <span className="inline-flex items-center px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-medium">TypeScript</span>
+                   <span className="inline-flex items-center px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">Recharts</span>
+                   <span className="inline-flex items-center px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-medium">TailwindCSS</span>
+                 </div>
                </div>
                
                <div>
                  <h4 className="font-bold text-slate-900 mb-3">Data Source</h4>
-                 <p className="text-xs text-slate-600 mb-2">Constituency-level election data</p>
-                 <p className="text-xs text-slate-500 mb-3">10,514+ observations (2009-2021)</p>
+                 <p className="text-xs text-slate-600 mb-1">Election Commission Dataset</p>
+                 <p className="text-xs text-slate-500 mb-3">via Unstop • 10,514+ observations (2009-2021)</p>
                  <a 
                    href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 
                    target="_blank" 
@@ -496,15 +508,28 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
                </div>
                
                <div>
-                 <h4 className="font-bold text-slate-900 mb-3">Project Info</h4>
-                 <p className="text-xs text-slate-600 mb-1">Author: Nikhil Kumar Shah</p>
-                 <p className="text-xs text-slate-500">Updated: February 2026</p>
+                 <h4 className="font-bold text-slate-900 mb-3">Created By</h4>
+                 <p className="text-xs text-slate-900 font-bold mb-0.5">Nikhil Kumar Shah</p>
+                 <p className="text-xs text-slate-500 mb-3">Data Analyst & Developer</p>
+                 <div className="space-y-1.5">
+                   <p className="text-xs text-slate-600">
+                     <span className="font-semibold">Last Updated:</span> February 2026
+                   </p>
+                   <p className="text-xs text-slate-600">
+                     <span className="font-semibold">Version:</span> 1.0.0
+                   </p>
+                 </div>
                </div>
              </div>
              
              <div className="pt-6 border-t border-slate-200">
-               <div className="flex justify-center items-center">
-                 <p className="text-xs text-slate-500">© 2026 Election Analytics Dashboard. Built for evidence-based governance.</p>
+               <div className="flex flex-col md:flex-row justify-between items-center gap-3">
+                 <p className="text-xs text-slate-500">
+                   © 2026 Election Analytics Dashboard • Built for evidence-based democratic governance
+                 </p>
+                 <p className="text-xs text-slate-400">
+                   React • TypeScript • Recharts • TailwindCSS • Vite • Vercel
+                 </p>
                </div>
              </div>
            </footer>

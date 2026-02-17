@@ -288,6 +288,39 @@ export const ForwardLooking: React.FC<ForwardLookingProps> = ({ data }) => {
           </div>
         </div>
       </div>
+
+      {/* Final Interpretation Box - What This Means */}
+      <div className="bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-200 p-8 rounded-2xl shadow-lg">
+        <h4 className="font-bold text-indigo-900 text-xl mb-4 flex items-center gap-2">
+          <CircleAlert className="text-indigo-600" size={24} />
+          What This Means: Translating Data into Action
+        </h4>
+        <div className="space-y-4">
+          <div className="bg-white/80 p-4 rounded-lg border border-indigo-100">
+            <p className="text-sm text-slate-900 font-semibold mb-2">🔴 High Volatility:</p>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              Unpredictable turnout swings make resource planning difficult. These constituencies need stable, multi-cycle engagement strategies to build voter trust and consistent participation habits.
+            </p>
+          </div>
+          <div className="bg-white/80 p-4 rounded-lg border border-indigo-100">
+            <p className="text-sm text-slate-900 font-semibold mb-2">📉 Negative Change:</p>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              Systematic decline signals deteriorating democratic participation. Root causes may include migration, infrastructure decay, voter apathy, or socioeconomic barriers requiring immediate investigation.
+            </p>
+          </div>
+          <div className="bg-white/80 p-4 rounded-lg border border-indigo-100">
+            <p className="text-sm text-slate-900 font-semibold mb-2">⚠️ High Priority Score:</p>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              Constituencies scoring above 30% combine multiple risk factors (low turnout + volatility + decline). These require urgent, coordinated intervention programs with measurable quarterly milestones.
+            </p>
+          </div>
+        </div>
+        <div className="mt-6 pt-6 border-t border-indigo-200">
+          <p className="text-sm text-indigo-900 font-semibold italic">
+            💡 Policy Implication: Early detection enables proactive resource allocation, preventing systemic democratic disengagement before it becomes entrenched. Watchlist monitoring transforms reactive governance into strategic electoral planning.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

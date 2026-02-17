@@ -163,7 +163,7 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
         <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-xl font-bold text-slate-800">Average Turnout Trend</h3>
+              <h3 className="text-xl font-bold text-slate-800">Average Voter Turnout Across All Constituencies (by Election Year)</h3>
               <div className="group relative">
                 <Info size={16} className="text-slate-400 cursor-help" />
                 <div className="absolute left-0 top-6 hidden group-hover:block w-64 bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl z-50">
@@ -176,16 +176,24 @@ export const Trends: React.FC<TrendsProps> = ({ data, filters }) => {
                 </div>
               </div>
             </div>
-            <p className="text-sm text-slate-500 mt-1 font-medium">Aggregated voter participation across selected scope over time</p>
+            <p className="text-sm text-slate-500 mt-1 font-medium">National average turnout trend showing temporal evolution of democratic participation</p>
           </div>
           {yearlyAvg.length > 0 ? (
             <>
               <TrendLineChart data={yearlyAvg} xKey="year" />
-              <div className="mt-6 p-4 bg-slate-50 rounded-xl text-sm text-slate-600 border border-slate-100">
-                <strong className="text-slate-900">Key Insight:</strong>{' '}
-                {yearlyAvg.length > 1 && yearlyAvg[yearlyAvg.length - 1]?.value < yearlyAvg[0]?.value
-                  ? `Overall declining trend observed (${(yearlyAvg[0].value - yearlyAvg[yearlyAvg.length - 1].value).toFixed(2)}% decrease). Sharp declines may indicate substantial voter disengagement.`
-                  : 'Turnout trends indicate relative stability or growth. Continue monitoring for sustained engagement.'}
+              <div className="mt-6 p-4 bg-blue-50 rounded-xl text-sm text-slate-700 border border-blue-200">
+                <div className="mb-3">
+                  <strong className="text-slate-900 block mb-1">📊 Data-Backed Insight:</strong>
+                  {yearlyAvg.length > 1 && yearlyAvg[yearlyAvg.length - 1]?.value < yearlyAvg[0]?.value
+                    ? `Overall, turnout has declined by ${(yearlyAvg[0].value - yearlyAvg[yearlyAvg.length - 1].value).toFixed(2)}% from ${yearlyAvg[0].year} (${yearlyAvg[0].value.toFixed(1)}%) to ${yearlyAvg[yearlyAvg.length - 1].year} (${yearlyAvg[yearlyAvg.length - 1].value.toFixed(1)}%) across most constituencies, signaling engagement fatigue.`
+                    : `Turnout has shown ${yearlyAvg.length > 1 ? ((yearlyAvg[yearlyAvg.length - 1].value - yearlyAvg[0].value) > 0 ? 'positive growth' : 'stability') : 'stable patterns'} over the analyzed period.`}
+                </div>
+                <div className="pt-3 border-t border-blue-200">
+                  <strong className="text-blue-900 block mb-1">💡 Policy Implication:</strong>
+                  {yearlyAvg.length > 1 && yearlyAvg[yearlyAvg.length - 1]?.value < yearlyAvg[0]?.value
+                    ? 'Declining turnout requires systematic investigation into voter apathy, accessibility barriers, and trust erosion. Targeted voter education and polling booth infrastructure upgrades are essential.'
+                    : 'Continue monitoring engagement patterns and maintain current electoral infrastructure standards to sustain healthy democratic participation.'}
+                </div>
               </div>
             </>
           ) : (
