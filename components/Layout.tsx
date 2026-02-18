@@ -480,8 +480,8 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
            
            {/* Footer */}
            <footer className="max-w-7xl mx-auto mt-16 pt-12 pb-8 border-t border-slate-200 bg-gradient-to-b from-transparent to-slate-50/50">
-             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-sm mb-8">
-               <div className="md:col-span-2">
+             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 text-sm mb-8">
+               <div className="md:col-span-4">
                  <h4 className="font-bold text-slate-900 mb-3 text-base flex items-center gap-2">
                    <LayoutDashboard size={18} className="text-blue-600" />
                    Election Participation Analytics
@@ -490,68 +490,78 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
                    Data-driven decision support for electoral intervention and engagement strategy. 
                    Empowering democratic institutions through evidence-based insights.
                  </p>
+                 <div className="flex flex-col md:flex-row gap-3 text-xs text-slate-500 mt-4">
+                    <p>© 2026 Election Analytics Dashboard</p>
+                    <p className="hidden md:block">•</p>
+                    <p>Built for evidence-based governance</p>
+                 </div>
                </div>
                
-               <div>
+               <div className="md:col-span-5">
                  <h4 className="font-bold text-slate-900 mb-3">Data & Resources</h4>
-                 
-                 <div className="mb-4">
-                   <p className="text-xs font-bold text-slate-900 mb-0.5">Election Commission Dataset</p>
-                   <p className="text-xs text-slate-500 mb-1.5">via Unstop • 10,514+ observations (2009-2021)</p>
+                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                    <a 
                      href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 
                      target="_blank" 
                      rel="noopener noreferrer"
-                     className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
+                     className="group bg-white border border-slate-200 rounded-lg p-3 hover:border-blue-300 hover:shadow-sm transition-all text-left"
                    >
-                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                       <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
-                     </svg>
-                     View Source Dataset
+                     <div className="flex items-center gap-2 mb-1 text-slate-900 font-bold text-xs group-hover:text-blue-600">
+                       <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                         <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                       </svg>
+                       Dataset
+                     </div>
+                     <p className="text-[10px] text-slate-500 leading-tight">10,514+ observations (2009-2021)</p>
                    </a>
-                 </div>
-                
-                 <div>
-                   <p className="text-xs font-bold text-slate-900 mb-0.5">Project Report</p>
-                   <p className="text-xs text-slate-500 mb-1.5">Reimagining Elections Through Data</p>
+                  
                    <a 
                      href="https://drive.google.com/file/d/1_iLMOEa4CN6Z8vt6DPsFV1IUITIsJhM7" 
                      target="_blank" 
                      rel="noopener noreferrer"
-                     className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
+                     className="group bg-white border border-slate-200 rounded-lg p-3 hover:border-blue-300 hover:shadow-sm transition-all text-left"
                    >
-                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                       <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M20,13V15H4V13H20M14,11V18L10.5,14.5L14,11M14,6V8H4V6H14Z" />
-                     </svg>
-                     Read Full Report
+                     <div className="flex items-center gap-2 mb-1 text-slate-900 font-bold text-xs group-hover:text-blue-600">
+                       <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                         <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M20,13V15H4V13H20M14,11V18L10.5,14.5L14,11M14,6V8H4V6H14Z" />
+                       </svg>
+                       Report
+                     </div>
+                     <p className="text-[10px] text-slate-500 leading-tight">Reimagining Elections Through Data</p>
+                   </a>
+
+                   <a 
+                     href="https://drive.google.com/file/d/15Q9ulV9Q2VE5joyyyPfWegpx8oNeGRZq/view?usp=sharing" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="group bg-white border border-slate-200 rounded-lg p-3 hover:border-blue-300 hover:shadow-sm transition-all text-left"
+                   >
+                     <div className="flex items-center gap-2 mb-1 text-slate-900 font-bold text-xs group-hover:text-blue-600">
+                       <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                         <path d="M10,16.5V7.5L16,12M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                       </svg>
+                       Video
+                     </div>
+                     <p className="text-[10px] text-slate-500 leading-tight">Watch the full analysis presentation</p>
                    </a>
                  </div>
               </div>
                
-               <div>
+               <div className="md:col-span-3">
                  <h4 className="font-bold text-slate-900 mb-3">Created By</h4>
-                 <p className="text-xs text-slate-900 font-bold mb-0.5">Nikhil Kumar Shah</p>
-                 <p className="text-xs text-slate-500 mb-3">Data Analyst & Developer</p>
-                 <div className="space-y-1.5">
-                   <p className="text-xs text-slate-600">
-                     <span className="font-semibold">Last Updated:</span> February 2026
-                   </p>
-                   <p className="text-xs text-slate-600">
-                     <span className="font-semibold">Version:</span> 1.0.0
-                   </p>
+                 <div className="bg-white border border-slate-200 rounded-lg p-4">
+                    <p className="text-xs text-slate-900 font-bold mb-0.5">Nikhil Kumar Shah</p>
+                    <p className="text-xs text-slate-500 mb-3">Data Analyst & Developer</p>
+                    <div className="flex items-center gap-3 text-[10px] text-slate-400 border-t border-slate-100 pt-2">
+                       <span>Feb 2026</span>
+                       <span>v1.0.0</span>
+                    </div>
                  </div>
-               </div>
-             </div>
-             
-             <div className="pt-6 border-t border-slate-200">
-               <div className="flex flex-col md:flex-row justify-between items-center gap-3">
-                 <p className="text-xs text-slate-500">
-                   © 2026 Election Analytics Dashboard • Built for evidence-based democratic governance
-                 </p>
                </div>
              </div>
            </footer>
         </div>
+
       </main>
 
       {/* About Modal */}
