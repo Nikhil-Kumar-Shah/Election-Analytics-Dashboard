@@ -115,27 +115,27 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
 
   // Detect mobile screen and show warning only once per session
   useEffect(() => {
-    const hasShownWarning = sessionStorage.getItem('mobileWarningShown') === 'true';
-    
-    // Only run this check if warning hasn't been shown before
-    if (!hasShownWarning) {
-      const checkMobile = () => {
-        const isMobile = window.innerWidth < 768;
-        if (isMobile && !hasShownWarning) {
-          setShowMobileWarning(true);
-        }
-      };
+    // Only verify once on mount, or check sessionStorage inside the event handler
+    const checkMobile = () => {
+      // Always check current session storage value
+      const alreadyShown = sessionStorage.getItem('mobileWarningShown') === 'true';
+      if (alreadyShown) return;
+
+      const isMobile = window.innerWidth < 768;
+      if (isMobile) {
+        setShowMobileWarning(true);
+      }
+    };
       
-      // Check on initial load
-      checkMobile();
+    // Check on initial load
+    checkMobile();
       
-      // Listen for window resize (for DevTools responsive mode)
-      window.addEventListener('resize', checkMobile);
+    // Listen for window resize
+    window.addEventListener('resize', checkMobile);
       
-      return () => {
-        window.removeEventListener('resize', checkMobile);
-      };
-    }
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const handleCloseMobileWarning = () => {
@@ -490,30 +490,43 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
                    Data-driven decision support for electoral intervention and engagement strategy. 
                    Empowering democratic institutions through evidence-based insights.
                  </p>
-                 <div className="flex flex-wrap gap-2">
-                   <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-medium">React</span>
-                   <span className="inline-flex items-center px-2 py-1 bg-indigo-100 text-indigo-700 rounded text-xs font-medium">TypeScript</span>
-                   <span className="inline-flex items-center px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium">Recharts</span>
-                   <span className="inline-flex items-center px-2 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-medium">TailwindCSS</span>
-                 </div>
                </div>
                
                <div>
-                 <h4 className="font-bold text-slate-900 mb-3">Data Source</h4>
-                 <p className="text-xs text-slate-600 mb-1">Election Commission Dataset</p>
-                 <p className="text-xs text-slate-500 mb-3">via Unstop • 10,514+ observations (2009-2021)</p>
-                 <a 
-                   href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 
-                   target="_blank" 
-                   rel="noopener noreferrer"
-                   className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
-                 >
-                   <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                     <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
-                   </svg>
-                   View Source Dataset
-                 </a>
-               </div>
+                 <h4 className="font-bold text-slate-900 mb-3">Data & Resources</h4>
+                 
+                 <div className="mb-4">
+                   <p className="text-xs font-bold text-slate-900 mb-0.5">Election Commission Dataset</p>
+                   <p className="text-xs text-slate-500 mb-1.5">via Unstop • 10,514+ observations (2009-2021)</p>
+                   <a 
+                     href="https://docs.google.com/spreadsheets/d/1IzhMEtJtlEXw5iVmNXdtcpSJ6o5Yf_lsdoCi-N4hg88" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
+                   >
+                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                       <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                     </svg>
+                     View Source Dataset
+                   </a>
+                 </div>
+                
+                 <div>
+                   <p className="text-xs font-bold text-slate-900 mb-0.5">Project Report</p>
+                   <p className="text-xs text-slate-500 mb-1.5">Reimagining Elections Through Data</p>
+                   <a 
+                     href="https://drive.google.com/file/d/1_iLMOEa4CN6Z8vt6DPsFV1IUITIsJhM7" 
+                     target="_blank" 
+                     rel="noopener noreferrer"
+                     className="inline-flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors"
+                   >
+                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                       <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M20,13V15H4V13H20M14,11V18L10.5,14.5L14,11M14,6V8H4V6H14Z" />
+                     </svg>
+                     Read Full Report
+                   </a>
+                 </div>
+              </div>
                
                <div>
                  <h4 className="font-bold text-slate-900 mb-3">Created By</h4>
@@ -534,9 +547,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
                <div className="flex flex-col md:flex-row justify-between items-center gap-3">
                  <p className="text-xs text-slate-500">
                    © 2026 Election Analytics Dashboard • Built for evidence-based democratic governance
-                 </p>
-                 <p className="text-xs text-slate-400">
-                   React • TypeScript • Recharts • TailwindCSS • Vite • Vercel
                  </p>
                </div>
              </div>
@@ -620,7 +630,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentView, onNavigat
                       Data Source
                     </h3>
                     <p className="text-sm text-slate-600 pl-7">
-                      <strong>10,514+</strong> observations from Indian assembly elections (2009-2024) including turnout rates, candidate counts, victory margins, and computed risk metrics.
+                      <strong>10,514+</strong> observations from Indian assembly elections (2009-2021) including turnout rates, candidate counts, victory margins, and computed risk metrics.
                     </p>
                   </div>
 
